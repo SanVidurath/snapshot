@@ -1,11 +1,12 @@
 // Header.tsx
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { useGlobalContext } from "../contexts/hook";
 import { StyledHeader, StyledTypography, StyledButton } from "./Styles";
 import { TextField, Grid } from "@mui/material";
 
 const Header = () => {
   const context = useGlobalContext();
+  const [inputText, setInputText] = useState("");
 
   if (!context) {
     return null;
@@ -13,13 +14,19 @@ const Header = () => {
 
   const { setSearchTerm } = context;
 
+  const handleNewSearchTerm = (term: string) => {
+    setSearchTerm(term);
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    const newValue = e.target.value;
+    setInputText(newValue);
+    handleNewSearchTerm(newValue);
   };
 
   const handleClick = (keyword: string) => {
-    console.log(keyword);
     setSearchTerm(keyword);
+    setInputText("");
   };
 
   return (
@@ -38,6 +45,7 @@ const Header = () => {
             id="outlined-basic"
             label="Search"
             variant="outlined"
+            value={inputText}
             sx={{ width: "70vw", marginBottom: "20px" }}
             onChange={handleChange}
           />
