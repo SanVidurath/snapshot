@@ -92,12 +92,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [photos, setPhotos] = useState<Photo[] | []>([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string | null>(letter);
-  const [pageNumber, setPageNumber] = useState(1);
 
   const searchURLParameters = useMemo(
     () =>
-      `api_key=${flickrKey}&text=${searchTerm}&format=json&nojsoncallback=1&per_page=100&page=${pageNumber}`,
-    [searchTerm, pageNumber]
+      `api_key=${flickrKey}&text=${searchTerm}&format=json&nojsoncallback=1&per_page=100`,
+    [searchTerm]
   );
 
   const combinedSearchURL = flickrSearchURL + searchURLParameters;
