@@ -11,8 +11,6 @@ const override: React.CSSProperties = {
   borderColor: "red",
 };
 
-// const flickrSecret = "185717cc41ef5bc1";
-
 const Photos = () => {
   const context = useGlobalContext();
 
@@ -30,7 +28,7 @@ const Photos = () => {
 
   if (photos.length === 0) {
     return (
-      <div style={{ margin: "50px 0" }}>
+      <div style={{ margin: "50px 0", textAlign: "center" }}>
         <Typography variant="h2">No photos found</Typography>
       </div>
     );

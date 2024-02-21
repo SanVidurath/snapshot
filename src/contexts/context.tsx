@@ -5,12 +5,12 @@ import React, {
   SetStateAction,
   useEffect,
   useState,
-  // useCallback,
 } from "react";
 import axios from "axios";
-import { Canceler } from "axios";
+import { Canceler } from "axios"; //Canceler type is imported from axios for canceling HTTP requests.
 import InfiniteScroll from "react-infinite-scroll-component";
 
+// the properties of a single Photo object
 interface Photo {
   farm: number;
   id: string;
@@ -29,8 +29,8 @@ export const AppContext = React.createContext<AppContextProps | undefined>(
   undefined
 );
 
-const flickrKey = "1975d716a3e48f675e709ec72a8fb64f";
-const flickrSearchURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&`;
+const flickrKey = "1975d716a3e48f675e709ec72a8fb64f"; //key given to API from flickr
+const flickrSearchURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&`; //flickr API
 
 interface AppProviderProps {
   children: ReactNode;
@@ -64,8 +64,8 @@ const alphabetLetters = [
   "y",
   "z",
 ];
-const randomNum = Math.floor(Math.random() * 25);
-const letter = alphabetLetters[randomNum];
+const randomNum = Math.floor(Math.random() * 26);
+const letter = alphabetLetters[randomNum]; //selecting random letter from alphabet
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [photos, setPhotos] = useState<Photo[] | []>([]);
@@ -73,11 +73,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState<string | null>(letter);
   const [pageNumber, setPageNumber] = useState(1);
 
+  // parameters to obtain the data
   const searchURLParameters = `api_key=${flickrKey}&text=${
-    searchTerm ? searchTerm : letter
+    searchTerm ? searchTerm : letter //if no searchTerm present random alphabet letter is selected
   }&format=json&nojsoncallback=1&per_page=20`;
 
-  const combinedSearchURL = flickrSearchURL + searchURLParameters;
+  const combinedSearchURL = flickrSearchURL + searchURLParameters; //URL that is used to fetch data
 
   const fetchData = async (url: string) => {
     setLoading(true);
@@ -147,7 +148,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       dataLength={photos.length} // This is important to prevent calling fetchMoreData on initial render
       next={fetchMoreData}
       hasMore={true} // Set this to false when you don't have more data to load
-      loader={<h4 style={{ textAlign: "center" }}>Loading...</h4>} // Optional loading indicator
+      loader={
+        <div style={{ textAlign: "center", minHeight: "50px" }}>
+          {photos.length !== 0 && <h4>Loading...</h4>}
+        </div>
+      } //minHeight prevents UI from shifting
     >
       <AppContext.Provider
         value={{
@@ -161,42 +166,3 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     </InfiniteScroll>
   );
 };
-
-// const handleScroll = () => {
-//   const scrollHeight = document.documentElement.scrollHeight;
-//   const scrollTop = document.documentElement.scrollTop;
-//   const windowViewportHeight = window.innerHeight;
-
-//   if (windowViewportHeight + scrollTop + 1 >= scrollHeight) {
-//     setLoading(true);
-//     setPageNumber((prev) => prev + 1);
-//   }
-// };
-
-// useEffect(() => {
-//   window.addEventListener("scroll", handleScroll);
-
-//   return () => {
-//     window.removeEventListener("scroll", handleScroll);
-//   };
-// }, []);
-
-// function getShuffledArray(originalArray: Photo[] | [], subset: number) {
-//   // Make a shallow copy of the original array to avoid modifying it
-//   const arrayCopy = [...originalArray];
-
-//   let temp;
-
-//   // Fisher-Yates shuffle algorithm
-//   for (let i = arrayCopy.length - 1; i > 0; i--) {
-//     const j = Math.floor(Math.random() * (i + 1));
-
-//     // Swap elements using a temporary variable
-//     temp = arrayCopy[i];
-//     arrayCopy[i] = arrayCopy[j];
-//     arrayCopy[j] = temp;
-//   }
-
-//   const slicedArray = arrayCopy.slice(0, subset);
-//   return slicedArray;
-// }
