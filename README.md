@@ -11,4 +11,4 @@ This project displays a gallery of random images based on the search query of us
 * React Typescript
 * Javascript
 * HTML
-* CSS
+
