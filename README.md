@@ -1,7 +1,8 @@
 # Picture Snapshot
-This project display a gallery of images
+This project displays a gallery of random images
 
 ## Features
+* Search - search any image
 * Flickr API - fetches images
 * Infinite scroll - load images as you go
 
